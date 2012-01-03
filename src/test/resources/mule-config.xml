@@ -38,7 +38,7 @@
 
     <flow name="testFlow">
     	<vm:inbound-endpoint path="in" />
-       	<skypeapi:my-processor message="#[groovy:payload]" target="${skype.target.number}"/>
+       	<skypeapi:send-sms-message message="#[groovy:payload]" target="${skype.target.number}"/>
        	
     </flow>
 

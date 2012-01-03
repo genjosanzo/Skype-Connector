@@ -178,7 +178,7 @@ public class SkypeAPIConnector {
 	 * Custom processor
 	 * 
 	 * {@sample.xml ../../../doc/SkypeAPI-connector.xml.sample
-	 * skypeapi:my-processor}
+	 * skypeapi:send-sms-message}
 	 * 
 	 * @param message
 	 *            Content to be texted
@@ -187,7 +187,7 @@ public class SkypeAPIConnector {
 	 * 
 	 */
 	@Processor
-	public void myProcessor(String message,String target) {
+	public void sendSmsMessage(String message,String target) {
 		
 		
 		Conversation conversation = skype.GetConversationByIdentity(target);
@@ -205,8 +205,7 @@ public class SkypeAPIConnector {
             	logger.warn("can not set body");
             }
                     
-            String[] targets = new String[1]; 
-            targets[0] = target; 
+            String[] targets = new String[]{target};
             result = sms.SetTargets(targets);
             if (!result) {
             	logger.warn("can not set target number");

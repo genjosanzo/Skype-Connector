@@ -1,3 +1,3 @@
-<!-- BEGIN_INCLUDE(skypeapi:my-processor) -->
-    <skypeapi:my-processor message="Test text" target="+393289569258" />
-<!-- END_INCLUDE(skypeapi:my-processor) -->
+<!-- BEGIN_INCLUDE(skypeapi:send-sms-message) -->
+    <skypeapi:send-sms-message message="Test text" target="+393289569333" />
+<!-- END_INCLUDE(skypeapi:send-sms-message) -->
