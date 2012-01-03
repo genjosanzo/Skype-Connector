@@ -219,6 +219,11 @@
             <version>${mule.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.mule.modules</groupId>
+            <artifactId>mule-module-scripting</artifactId>
+            <version>${mule.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.mule.tools.devkit</groupId>
             <artifactId>mule-devkit-annotations</artifactId>
             <version>${mule.devkit.version}</version>
@@ -229,6 +234,7 @@
             <version>${mule.version}</version>
             <scope>test</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.mule.transports</groupId>
             <artifactId>mule-transport-vm</artifactId>

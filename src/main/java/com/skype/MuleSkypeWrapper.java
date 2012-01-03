@@ -21,7 +21,7 @@ public class MuleSkypeWrapper extends Skype implements jwcObserver{
 	 * 
 	 * @since 1.0
 	 */
-    public static final String MY_CLASS_TAG_PFX = "MuleSkype";
+    public static final String MY_CLASS_TAG_PFX = "MULE_SKYPE_WRAPPER";
     
 	/**
 	 * Info/Debug console output message prefix/identifier tag.
