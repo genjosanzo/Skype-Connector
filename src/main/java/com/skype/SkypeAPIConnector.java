@@ -62,11 +62,7 @@ import com.skype.util.PemReader;
 public class SkypeAPIConnector {
 	
 	private static Logger logger = LoggerFactory.getLogger(SkypeAPIConnector.class);
-	/**
-	 * Configurable
-	 */
-	@Configurable
-	private String accountName;
+	
 	
 	/**
 	 * Server IP Address.
@@ -91,6 +87,8 @@ public class SkypeAPIConnector {
 	 * The path where the pem certificate is located
 	 */
 	@Configurable
+	@Optional
+	@Default(value="Version 1.0-SNAPSHOT.pem")
 	private String pemFileName;
 	/**
 	 * Skype username
@@ -103,24 +101,19 @@ public class SkypeAPIConnector {
 	@Configurable
 	private String password;
 	
-	
-	
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
 
 	private Skype skype;
 
 	private TLSServerTransport transport;
 	private MuleSkypeWrapper listener;
 
+
+	private File pemFile;
+
 	@Start
 	public void createSkypeConnector() {
 		this.skype = new Skype();
-		this.pemFileName = (pemFileName==null)?FileUtils.toFile(
-				this.getClass().getClassLoader()
-						.getResource("Version 1.0-SNAPSHOT.pem"))
-				.getAbsolutePath():pemFileName;
+		this.pemFile = FileUtils.toFile(this.getClass().getClassLoader().getResource(pemFileName));
 		this.listener = new MuleSkypeWrapper();
 	}
 
@@ -137,7 +130,7 @@ public class SkypeAPIConnector {
 	public void connect() throws ConnectionException {
 
 		try {
-			PemReader donkey = new PemReader(pemFileName);
+			PemReader donkey = new PemReader(pemFile.getAbsolutePath());
 			X509Certificate c = donkey.getCertificate();
 			PrivateKey p = donkey.getKey();
 			Transport t = new TCPSocketTransport(IP_ADDR, PORT_NUM);
@@ -187,14 +180,16 @@ public class SkypeAPIConnector {
 	 * {@sample.xml ../../../doc/SkypeAPI-connector.xml.sample
 	 * skypeapi:my-processor}
 	 * 
-	 * @param content
-	 *            Content to be processed
-	 * @return Some string
+	 * @param message
+	 *            Content to be texted
+	 * @param target
+	 * 			  The recipient of the text
+	 * 
 	 */
 	@Processor
-	public void myProcessor(String content) {
+	public void myProcessor(String message,String target) {
 		
-		String target = "+393289569258";
+		
 		Conversation conversation = skype.GetConversationByIdentity(target);
         if (conversation != null) {
             Sms sms = skype.CreateOutgoingSms();
@@ -205,7 +200,7 @@ public class SkypeAPIConnector {
                 
             }
                                                     
-            Sms.SetSMSBodyResult smsBodyResult = sms.SetBody(content);
+            Sms.SetSMSBodyResult smsBodyResult = sms.SetBody(message);
             if (smsBodyResult == null) {
             	logger.warn("can not set body");
             }
@@ -232,10 +227,6 @@ public class SkypeAPIConnector {
 	public void setCallActive(boolean b) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public String getAccountName() {
-		return accountName;
 	}
 
 	public void setLoginStatus(STATUS accountStatus) {

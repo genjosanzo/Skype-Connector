@@ -24,6 +24,7 @@ import org.mule.api.MuleEvent;
 import org.mule.construct.Flow;
 import org.mule.tck.FunctionalTestCase;
 import org.mule.tck.AbstractMuleTestCase;
+import org.mule.transport.NullPayload;
 
 import org.junit.Test;
 
@@ -38,7 +39,7 @@ public class SkypeAPIConnectorTest extends FunctionalTestCase
     @Test
     public void testFlow() throws Exception
     {
-        runFlowAndExpect("testFlow", "Another string");
+        runFlowAndExpect("testFlow", NullPayload.getInstance());
     }
 
     /**

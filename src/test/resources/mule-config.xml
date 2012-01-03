@@ -22,18 +22,24 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:spring="http://www.springframework.org/schema/beans"
       xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:context="http://www.springframework.org/schema/context"
+      
       xmlns:skypeapi="http://www.mulesoft.org/schema/mule/skypeapi"
       xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/3.1/mule-vm.xsd
+        http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/3.2/mule-vm.xsd
         http://www.mulesoft.org/schema/mule/skypeapi http://www.mulesoft.org/schema/mule/skypeapi/1.0-SNAPSHOT/mule-skypeapi.xsd">
-
-    <skypeapi:config username="alberto.aresca" password="a18071984#"/>
+	
+	<context:property-placeholder location="classpath:skypekit-test.properties"/> 
+    
+    <skypeapi:config username="${skype.username}" password="${skype.password}" />
 
     <flow name="testFlow">
-    	<vm:inbound-endpoint path="vm://in" />
-        <skypeapi:my-processor content="Another string"/>
+    	<vm:inbound-endpoint path="in" />
+       	<skypeapi:my-processor message="#[groovy:payload]" target="${skype.target.number}"/>
+       	
     </flow>
 
 </mule>
